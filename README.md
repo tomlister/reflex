@@ -6,6 +6,13 @@ Utilising websockets, reflex allows programmers to quickly setup a channel for s
 
 Check out the [examples](https://github.com/tomlister/reflex/tree/master/examples) directory to get started.
 
+## Roadmap
+We're still developing this software. The current roadmap is for core functionality.
+- [x] Automatic Discovery
+- [x] Websocket Handling
+- [ ] Device Types
+- [ ] Reflex Event System
+
 ## Diagrams
 ### MDNS
 ![multicast dns diagram](https://raw.githubusercontent.com/tomlister/reflex/master/docs/mdns-diagram.png)
