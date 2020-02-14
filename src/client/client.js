@@ -22,8 +22,8 @@ class Client {
         let devicesSeen = []
         let browser = mdns.createBrowser(mdns.tcp('ws'));
         browser.on('serviceUp', function(service) {
-            if (!devicesSeen.includes(service.host)) {
-                devicesSeen.push(service.host)
+            if (!devicesSeen.includes(service.name)) {
+                devicesSeen.push(service.name)
                 if(service.txtRecord['reflex'] === 'true') {
                     let tmpdevice = new Device(service.txtRecord['name'], service.host, service.addresses, service.port)
                     onDiscover(tmpdevice)
@@ -32,6 +32,7 @@ class Client {
         });
         browser.on('serviceDown', function(service) {
             //TODO: Tear down any subscribed devices.
+            devicesSeen = devicesSeen.filter(e => ![service.name].includes(e));
         });
         browser.start();
     }
