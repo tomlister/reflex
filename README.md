@@ -7,5 +7,7 @@ Utilising websockets, reflex allows programmers to quickly setup a channel for s
 Check out the [examples](https://github.com/tomlister/reflex/tree/master/examples) directory to get started.
 
 ## Diagrams
+### MDNS
 ![multicast dns diagram](https://raw.githubusercontent.com/tomlister/reflex/master/docs/mdns-diagram.png)
+### Connection Setup
 ![handshake diagram](https://raw.githubusercontent.com/tomlister/reflex/master/docs/handshake.png)
