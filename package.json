@@ -1,0 +1,27 @@
+{
+  "name": "reflex",
+  "version": "1.0.0",
+  "description": "reflex automation",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomlister/reflex.git"
+  },
+  "keywords": [
+    "reflex",
+    "automation"
+  ],
+  "author": "Tom Lister",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomlister/reflex/issues"
+  },
+  "homepage": "https://github.com/tomlister/reflex#readme",
+  "dependencies": {
+    "mdns": "^2.5.1",
+    "ws": "^7.2.1"
+  }
+}
