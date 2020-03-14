@@ -2,16 +2,16 @@ var reflex = require("../")
 
 let client = new reflex.Client()
 
-function subscriptionHandler(ws) {
-    ws.on('open', function open() {
-    });
-    ws.on('message', function incoming(data) {
-        console.log(data);
-    });
-}
-
 client.discover((device) => {
     const discoveredDevice = device
-    discoveredDevice.subscribe(subscriptionHandler)
-    console.log("Subscribed to "+device.deviceName+".")
+    discoveredDevice.subscribe(()=>{
+        /* Lamp Status */
+        discoveredDevice.event.on("lamp_status", (data) => {
+            console.log(data)
+        })
+        discoveredDevice.send("lamp_status", {"action": "get"})
+        discoveredDevice.send("lamp_toggle", {})
+        discoveredDevice.send("lamp_status", {"action": "get"})
+        console.log("Subscribed to "+device.deviceName+".")
+    })
 })

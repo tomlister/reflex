@@ -1,16 +1,57 @@
 const mdns = require('mdns')
 const WebSocket = require('ws');
+const EventEmitter = require('events');
+
+class ReflexEmitter extends EventEmitter {}
+
+class ThinClient {
+    constructor() {
+    }
+
+    send(event, data) {
+        this.ws.send(JSON.stringify({"event": event, "data": data}))
+    }
+}
 
 class Server {
-    constructor(deviceName = "device", onNewEvent) {
+    constructor(deviceName = "device", roomName = "", onNewEvent) {
         this.deviceName = deviceName
+        this.roomName = deviceName
+    }
+
+    _reflexWebSocketSendInternal(ws, data) {
+        ws.send(JSON.stringify({
+            "event":"internal",
+            "data": data
+        }));
     }
 
     _reflexStartWebSocketServer(onWebSocket) {
         const wss = new WebSocket.Server({ port: 8080 });
-
         wss.on('connection', function connection(ws) {
-            onWebSocket(ws)
+            let client = new ThinClient();
+            client.event = new ReflexEmitter();
+            const deviceInfo = {
+                deviceName: this.deviceName,
+                roomName: this.roomName
+            }
+            //this._reflexWebSocketSendInternal(ws, deviceInfo);
+            client.ws = ws;
+            client.ws.on('open', function open() {
+                client.ws.send(JSON.stringify({
+                    "event":"internal",
+                    "data": deviceInfo
+                }));
+            });
+            client.ws.on('message', function incoming(data) {
+                const dataobj = JSON.parse(data)
+                if (dataobj["event"] == "internal") {
+                    console.log("Internal Message: "+dataobj["data"])
+                } else {
+                    client.event.emit(dataobj["event"], dataobj["data"])
+                }
+            });
+            onWebSocket(client)
         });
     }
 
